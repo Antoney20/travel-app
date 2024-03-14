@@ -35,23 +35,31 @@ Tailwind CSS Setup
 This project utilizes Tailwind CSS for styling. Tailwind CSS has already been set up. You can customize the styles in the tailwind.config.js file.
 You  van still install and run it locally.
 
-    ```bash
+    ```bash 
     npm install -D tailwindcss postcss autoprefixer
     npx tailwindcss init -p
 
 - Configure your template paths
 Add the paths to all of your template files in your tailwind.config.js file.
-    ```bash
 
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+    ```bash
+    /** @type {import('tailwindcss').Config} */
+    export default {
+      content: [
+        "./index.html",
+        "./src/**/*.{js,ts,jsx,tsx}",
+      ],
+      theme: {
+        extend: {},
+      },
+      plugins: [],
+    }
+
 ## Add the Tailwind directives to your CSS
+Run your build process with npm run dev.
+   ```bash
+   npm run dev
+
+- This will start the development server, and you can access the application at http://localhost:3000.
+
+
