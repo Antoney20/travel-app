@@ -7,6 +7,11 @@ export default function SignUp() {
       email: '',
       password: ''
     });
+    const [formErrors, setFormErrors] = useState({
+        username: '',
+        email: '',
+        password: ''
+      });
   
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState('');
@@ -14,10 +19,24 @@ export default function SignUp() {
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
+      setFormErrors({ ...formErrors, [name]: '' });
     };
   
     const handleSubmit = async (e) => {
       e.preventDefault();
+      let errors = {};
+      let isValid = true;
+      for (const key in formData) {
+        if (!formData[key]) {
+          errors[key] = 'This field is required';
+          isValid = false;
+        }
+      }
+      if (!isValid) {
+        setFormErrors(errors);
+        return;
+      }
+  
       setSubmitting(true);
   
       try {
@@ -55,44 +74,47 @@ export default function SignUp() {
       <h1 className='text-3xl font-bold mb-4'>SIGN UP</h1>
       <form onSubmit={handleSubmit} className='max-w-md mx-auto'>
         <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2'>Username</label>
+          <label className='block mb-1' htmlFor='username'>Username:</label>
           <input
             type='text'
+            id='username'
             name='username'
             value={formData.username}
             onChange={handleChange}
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            required
+            className='w-full px-3 py-2 border rounded-md'
           />
+          {formErrors.username && <p className='text-red-500'>{formErrors.username}</p>}
         </div>
         <div className='mb-4'>
-          <label className='block text-gray-700 text-sm font-bold mb-2'>Email</label>
+          <label className='block mb-1' htmlFor='email'>Email:</label>
           <input
             type='email'
+            id='email'
             name='email'
             value={formData.email}
             onChange={handleChange}
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            required
+            className='w-full px-3 py-2 border rounded-md'
           />
+          {formErrors.email && <p className='text-red-500'>{formErrors.email}</p>}
         </div>
-        <div className='mb-6'>
-          <label className='block text-gray-700 text-sm font-bold mb-2'>Password</label>
+        <div className='mb-4'>
+          <label className='block mb-1' htmlFor='password'>Password:</label>
           <input
             type='password'
+            id='password'
             name='password'
             value={formData.password}
             onChange={handleChange}
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline'
+            required
+            className='w-full px-3 py-2 border rounded-md'
           />
+          {formErrors.password && <p className='text-red-500'>{formErrors.password}</p>}
         </div>
-        <div className='flex items-center justify-between'>
-          <button
-            type='submit'
-            className='bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            disabled={submitting}
-          >
-            {submitting ? 'Submitting...' : 'Sign Up'}
-          </button>
-        </div>
+        <button type='submit' className='bg-blue-500 text-white px-4 py-2 rounded-md'>
+          {submitting ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
       {submitError && (
         <div className='mt-4 text-red-500'>
